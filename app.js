@@ -4,9 +4,16 @@ import { MongoClient, ObjectId } from "mongodb";
 const app = express();
 const port = 7000;
 
+try {
+  process.loadEnvFile?.();
+} catch (_) {}
+
 // MongoDB connection
-const mongoUrl = "mongodb://admin:admin123@localhost:27017";
-const databaseName = "library_db";
+const mongoUrl =
+  process.env.MONGO_URI ||
+  process.env.MONGODB_URI ||
+  "mongodb://admin:admin123@localhost:27017";
+const databaseName = process.env.DB_NAME || "library_db";
 
 const client = new MongoClient(mongoUrl);
 
